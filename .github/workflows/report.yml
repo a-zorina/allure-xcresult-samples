@@ -126,7 +126,9 @@ jobs:
       - run: xcrun xcresulttool get --legacy --format json --path ./test-results/screenshots.xcresult
       - run: xcrun xcresulttool get --legacy --format json --path ./test-results/recordings.xcresult
       - run: xcrun xcresulttool get --legacy --format json --path ./test-results/error.xcresult
-  
+
+      - run: sleep 60s
+
       - run: mdls -raw -attr kMDItemContentTypeTree ./test-results/destinations/mac.xcresult
       - run: mdls -raw -attr kMDItemContentTypeTree ./test-results/destinations/iphone16.xcresult
       - run: mdls -raw -attr kMDItemContentTypeTree ./test-results/destinations/merged.xcresult
