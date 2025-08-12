@@ -127,26 +127,30 @@ jobs:
       - run: xcrun xcresulttool get --legacy --format json --path ./test-results/recordings.xcresult
       - run: xcrun xcresulttool get --legacy --format json --path ./test-results/error.xcresult
 
-      - run: sleep 60s
 
-      - run: mdls -raw -attr kMDItemContentTypeTree ./test-results/destinations/mac.xcresult
-      - run: mdls -raw -attr kMDItemContentTypeTree ./test-results/destinations/iphone16.xcresult
-      - run: mdls -raw -attr kMDItemContentTypeTree ./test-results/destinations/merged.xcresult
-      - run: mdls -raw -attr kMDItemContentTypeTree ./test-results/repetitions.xcresult
-      - run: mdls -raw -attr kMDItemContentTypeTree ./test-results/testplans.xcresult
-      - run: mdls -raw -attr kMDItemContentTypeTree ./test-results/screenshots.xcresult
-      - run: mdls -raw -attr kMDItemContentTypeTree ./test-results/recordings.xcresult
-      - run: mdls -raw -attr kMDItemContentTypeTree ./test-results/error.xcresult
+      - name: Import xcresult metadata
+        run: |
+          mdimport -m -y com.apple.xcode.resultbundle -u ./test-results/destinations/mac.xcresult
+          mdimport -m -y com.apple.xcode.resultbundle -u ./test-results/destinations/iphone16.xcresult
+          mdimport -m -y com.apple.xcode.resultbundle -u ./test-results/destinations/merged.xcresult
+          mdimport -m -y com.apple.xcode.resultbundle -u ./test-results/repetitions.xcresult
+          mdimport -m -y com.apple.xcode.resultbundle -u ./test-results/testplans.xcresult
+          mdimport -m -y com.apple.xcode.resultbundle -u ./test-results/screenshots.xcresult
+          mdimport -m -y com.apple.xcode.resultbundle -u ./test-results/recordings.xcresult
+          mdimport -m -y com.apple.xcode.resultbundle -u ./test-results/error.xcresult
   
+      - name: Check Allure 3 version
+        run: npx allure@3.0.0-beta.17 --version
+      
       - name: Generate Allure 3 reports
         run: |
-          npx allure awesome --output ./allure-reports/unit/v3 ./test-results/destinations/mac.xcresult
-          npx allure awesome --output ./allure-reports/destinations/v3 ./test-results/destinations/merged.xcresult
-          npx allure awesome --output ./allure-reports/repetitions/v3 ./test-results/repetitions.xcresult
-          npx allure awesome --output ./allure-reports/testplans/v3 ./test-results/testplans.xcresult
-          npx allure awesome --output ./allure-reports/screenshots/v3 ./test-results/screenshots.xcresult
-          npx allure awesome --output ./allure-reports/recordings/v3 ./test-results/recordings.xcresult
-          npx allure awesome --output ./allure-reports/error/v3 ./test-results/error.xcresult
+          npx allure@3.0.0-beta.17 awesome --output ./allure-reports/unit/v3 ./test-results/destinations/mac.xcresult
+          npx allure@3.0.0-beta.17 awesome --output ./allure-reports/destinations/v3 ./test-results/destinations/merged.xcresult
+          npx allure@3.0.0-beta.17 awesome --output ./allure-reports/repetitions/v3 ./test-results/repetitions.xcresult
+          npx allure@3.0.0-beta.17 awesome --output ./allure-reports/testplans/v3 ./test-results/testplans.xcresult
+          npx allure@3.0.0-beta.17 awesome --output ./allure-reports/screenshots/v3 ./test-results/screenshots.xcresult
+          npx allure@3.0.0-beta.17 awesome --output ./allure-reports/recordings/v3 ./test-results/recordings.xcresult
+          npx allure@3.0.0-beta.17 awesome --output ./allure-reports/error/v3 ./test-results/error.xcresult
   
       - name: Move index.html
         run: cp ./Static/index.html ./allure-reports/

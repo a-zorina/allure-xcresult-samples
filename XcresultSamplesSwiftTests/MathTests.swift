@@ -1,6 +1,6 @@
 import Testing
 
-struct MathTests {
+struct MathTestsSwift {
 
     @Test
     func addition() async throws {
