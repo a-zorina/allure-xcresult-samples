@@ -140,7 +140,7 @@ jobs:
           mdimport -m -y com.apple.xcode.resultbundle -u ./test-results/error.xcresult
   
       - name: Check Allure 3 version
-        run: npx allure@3.0.0-beta.17 --version
+        run: npx allure@3.0.0-beta.17 --help | head -1
       
       - name: Generate Allure 3 reports
         run: |
